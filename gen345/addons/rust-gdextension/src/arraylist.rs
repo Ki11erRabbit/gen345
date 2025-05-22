@@ -85,12 +85,19 @@ impl ArrayList {
 
     #[func]
     fn push_front(&mut self, value: Variant) {
-        self.vec.push(value);
+        self.vec.insert(0, value);
     }
 
     #[func]
     fn pop_front(&mut self) -> Variant {
-        self.vec.pop().unwrap_or(Variant::nil())
+        let out = self.vec.get(0);
+        if let Some(out) = out {
+            let out = out.clone();
+            self.vec.remove(0);
+            out
+        } else {
+            Variant::nil()
+        }
     }
 
     #[func]
@@ -348,12 +355,3 @@ impl ArrayList {
             })
     }
 }
-
-struct MyExtension;
-
-#[gdextension]
-unsafe impl ExtensionLibrary for MyExtension {
-
-}
-
-
