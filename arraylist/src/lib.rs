@@ -1,16 +1,15 @@
 use std::cmp::Ordering;
-use godot::classes::{ISprite2D, Sprite2D};
 use godot::prelude::*;
 
 #[derive(GodotClass)]
-#[class(base=Sprite2D)]
+#[class(base=Object)]
 struct ArrayList {
     vec: Vec<Variant>,
-    base: Base<Sprite2D>,
+    base: Base<Object>,
 }
 
 #[godot_api]
-impl ISprite2D for ArrayList {
+impl IObject for ArrayList {
     fn init(base: Base<Self::Base>) -> Self {
         Self {
             vec: Vec::new(),

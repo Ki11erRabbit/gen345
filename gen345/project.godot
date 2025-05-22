@@ -11,13 +11,12 @@ config_version=5
 [application]
 
 config/name="Gen345"
-run/main_scene="res://node_2d.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gen345/plugin.cfg", "res://addons/gut/plugin.cfg")
+enabled=PackedStringArray("res://addons/gen345/plugin.cfg")
 
 [rendering]
 
