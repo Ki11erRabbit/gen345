@@ -47,8 +47,29 @@ func test_push():
 	list.push_back(3)
 	list.push_front(4)
 	
-	for i in range(3):
-		print(list.get(i))
-	
 	assert_eq(list.front(), 4, "First item is incorrect")
 	assert_eq(list.back(), 3, "Last item is incorrect")
+
+func test_find():
+	var list = ArrayList.from_array([1,2,3,4])
+	
+	assert_eq(list.find(3), 2, "3 was not at index 2")
+
+func test_find_custom():
+	var list = ArrayList.from_array([1, 2, 3, 4])
+	
+	assert_eq(list.find_custom(func(x):
+		return x == 2), 1, "2 was not at index 1")
+
+func test_bsearch():
+	var list = ArrayList.from_array([1, 1 ,2, 3, 5, 8])
+	
+	var result = list.bsearch(3, func(value, arr_value):
+		if value == arr_value:
+			return 0
+		elif arr_value < value:
+			return -1
+		else:
+			return 1)
+	
+	assert_eq(result, 3, "Binary Search index wrong")

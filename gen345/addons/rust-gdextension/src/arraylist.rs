@@ -194,6 +194,11 @@ impl ArrayList {
     }
 
     #[func]
+    fn is_empty(&self) -> bool {
+        self.vec.is_empty()
+    }
+
+    #[func]
     fn reverse(&mut self) {
         self.vec.reverse();
     }
@@ -218,6 +223,13 @@ impl ArrayList {
             .fold(accum, |accum, value| {
                 f.call(&[accum, value.clone()])
             })
+    }
+
+    #[func]
+    fn for_each(&self, f: Callable) {
+        self.vec.iter().for_each(|variant| {
+            f.call(&[variant.clone()]);
+        });
     }
 
     /// f should be a function that returns an integer.
