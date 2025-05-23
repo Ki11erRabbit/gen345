@@ -14,6 +14,10 @@ config/name="Gen345"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+DamageManager="*res://addons/gen345/Battle/damage_manager.gd"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/gen345/plugin.cfg", "res://addons/gut/plugin.cfg")

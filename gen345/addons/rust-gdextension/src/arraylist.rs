@@ -204,6 +204,11 @@ impl ArrayList {
     }
 
     #[func]
+    fn get_array(&self) -> VariantArray {
+        VariantArray::from(self.vec.as_slice())
+    }
+
+    #[func]
     fn map(&self, f: Callable) -> Gd<Self> {
         Gd::from_init_fn(|base| {
             let vec = self.vec.iter()

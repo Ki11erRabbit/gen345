@@ -1,4 +1,4 @@
-class_name DamageManager extends Node
+extends Node
 
 var damage_calculuator: DamageCalculator = null
 
@@ -20,7 +20,6 @@ func set_move_overrides(overrides: Dictionary) -> void:
 ## If the move has an override, then that override is used instead of the global damage calculator
 func calculate_damage(move: MonsterMove, user: MonsterWrapper, target: MonsterWrapper) -> int:
 	assert(types.size() != 0, "Types haven't been loaded in yet")
-	assert(damage_calculuator != null, "Damage Calculator Strategy not loaded in yet")
 	
 	var move_type: String = move.get_type()
 	
@@ -47,8 +46,13 @@ func calculate_damage(move: MonsterMove, user: MonsterWrapper, target: MonsterWr
 		return method.calculate(move, user, target, effectiveness, bonus)
 	
 	# otherwise, use the global damage calculator
+	assert(damage_calculuator != null, "Damage Calculator Strategy not loaded in yet")
 	return damage_calculuator.calculate(move, user, target, effectiveness, bonus)
 
+## Method to use the global damage calculator if needed
+func use_damage_calculator(move: MonsterMove, user: MonsterWrapper, target: MonsterWrapper, effectiveness: float, bonus: float) -> int:
+	assert(damage_calculuator != null, "Damage Calculator Strategy not loaded in yet")
+	return damage_calculuator.calculate(move, user, target, effectiveness, bonus)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -16,7 +16,7 @@ var current_level: int
 var current_exp: int
 
 ## A list of all currently active status effects
-var status_effects: Array[String]
+var status_effects: Array[MonsterStatusEffect]
 
 ## A list of all currently available moves for battle
 var current_moves: Array[MonsterMove]

@@ -50,8 +50,17 @@ func process_queue_item():
 		weather.process_item()
 		weather = null
 
+func before_move_phase() -> bool:
+	return switch_queue.is_empty() and item_queue.is_empty() and rotation_queue.is_empty() and transformation_queue.is_empty()
+
+func battle_phase_done() -> bool:
+	return switch_queue.is_empty() and item_queue.is_empty() and rotation_queue.is_empty() and transformation_queue.is_empty() and move_queue.is_empty()
+
+func end_of_turn_phase_done() -> bool:
+	return status_effect_queue.is_empty() and weather == null
+
 func is_empty() -> bool:
-	return switch_queue.is_empty() and item_queue.is_empty() and rotation_queue.is_empty() and transformation_queue.is_empty() and move_queue.is_empty() and status_effect_queue.is_empty()
+	return switch_queue.is_empty() and item_queue.is_empty() and rotation_queue.is_empty() and transformation_queue.is_empty() and move_queue.is_empty() and status_effect_queue.is_empty() and weather == null
 
 func tweak_queue(queue_tweaker: QueueTweaker):
 	queue_tweaker.tweak(switch_queue, item_queue, rotation_queue, transformation_queue, move_queue, status_effect_queue)
