@@ -16,10 +16,10 @@ var current_level: int
 var current_exp: int
 
 ## A list of all currently active status effects
-var status_effects: Array[MonsterStatusEffect]
+var status_effects: ArrayList
 
 ## A list of all currently available moves for battle
-var current_moves: Array[MonsterMove]
+var current_moves: Array[MonsterMoveSlot]
 
 ## A dictionary that represents the items, armor, weapons a monster could be using
 ## The key is the slot name and the value is the thing

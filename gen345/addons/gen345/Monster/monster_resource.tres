@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MonsterResource" load_steps=2 format=3 uid="uid://dfba6wpbp7br6"]
+
+[ext_resource type="Script" uid="uid://dm0sdq876fdya" path="res://addons/gen345/Monster/monster_resource.gd" id="1_labwq"]
+
+[resource]
+script = ExtResource("1_labwq")
+name = ""
+health_points = 0
+attack = 0
+defense = 0
+special_attack = 0
+special_defense = 0
+speed = 0
+user_defined = {}
+level_up_category = ""
+types = Array[String]([])
+level_up_moveset = {}
+front_sprite = ""
+back_sprite = ""

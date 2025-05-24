@@ -16,7 +16,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-DamageManager="*res://addons/gen345/Battle/damage_manager.gd"
+BattleManager="*res://addons/gen345/Battle/battle_manager.gd"
 
 [editor_plugins]
 

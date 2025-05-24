@@ -1,10 +1,13 @@
 extends Node
 
 var damage_calculuator: DamageCalculator = null
+var status_applier: StatusApplier = null
 
 var types: Dictionary = {}
 
 var move_overrides: Dictionary = {}
+
+var status_effects: Dictionary = {}
 
 func set_types(types: Dictionary) -> void:
 	self.types = types
@@ -15,10 +18,37 @@ func set_damage_calculator(calculator: DamageCalculator) -> void:
 func set_move_overrides(overrides: Dictionary) -> void:
 	self.move_overrides = overrides
 
+func set_status_applier(applier: StatusApplier) -> void:
+	self.status_applier = applier
+
+func process_move(move: MonsterMoveSlot, user: MonsterSlot, target: MonsterSlot) -> void:
+	match move.monster_move.resource.move_type:
+		MonsterMoveResource.MoveType.Attack:
+			var damage: int = calculate_damage(move, user, target)
+			target.take_damage(damage)
+		MonsterMoveResource.MoveType.Healing:
+			var healing: float = move.monster_move.resource.heal_data
+			if healing >= 1.0:
+				healing /= 100
+				target.heal_limit(healing)
+			else:
+				target.heal_amount(healing)
+		MonsterMoveResource.MoveType.StatusAfflict:
+			for effect_name: String in move.monster_move.resource.status_afflict_data:
+				assert(status_effects.get(effect_name) != null, "Effect does not exist")
+				apply_status_effect(effect_name, target)
+		MonsterMoveResource.MoveType.StatusClear:
+			for effect_name: String in move.monster_move.resource.status_clear_data:
+				assert(status_effects.get(effect_name) != null, "Effect does not exist")
+				target.clear_status(effect_name)
+		MonsterMoveResource.MoveType.StatChange:
+			pass
+
+
 ## Calculates the amount of damage for the target to take
 ## This also calculates the effectiveness and bonus for the move before handing off control to the DamageCalculator
 ## If the move has an override, then that override is used instead of the global damage calculator
-func calculate_damage(move: MonsterMove, user: MonsterWrapper, target: MonsterWrapper) -> int:
+func calculate_damage(move: MonsterMoveSlot, user: MonsterSlot, target: MonsterSlot) -> int:
 	assert(types.size() != 0, "Types haven't been loaded in yet")
 	
 	var move_type: String = move.get_type()
@@ -50,23 +80,23 @@ func calculate_damage(move: MonsterMove, user: MonsterWrapper, target: MonsterWr
 	return damage_calculuator.calculate(move, user, target, effectiveness, bonus)
 
 ## Method to use the global damage calculator if needed
-func use_damage_calculator(move: MonsterMove, user: MonsterWrapper, target: MonsterWrapper, effectiveness: float, bonus: float) -> int:
+func use_damage_calculator(move: MonsterMoveSlot, user: MonsterSlot, target: MonsterSlot, effectiveness: float, bonus: float) -> int:
 	assert(damage_calculuator != null, "Damage Calculator Strategy not loaded in yet")
 	return damage_calculuator.calculate(move, user, target, effectiveness, bonus)
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
 
 class DamageCalculator:
 	## Helper class using the strategy pattern to define how to calculate damage from the move, user, target, effectiveness, and bonus
 	
-	func calculate(move: MonsterMove, user: MonsterWrapper, target: MonsterWrapper, effectiveness: float, bonus: float) -> int:
+	func calculate(move: MonsterMoveSlot, user: MonsterSlot, target: MonsterSlot, effectiveness: float, bonus: float) -> int:
 		return 0
+
+
+func apply_status_effect(effect_name: String, monster_wrapper: MonsterSlot) -> void:
+	var effect = status_effects.get(effect_name)
+	assert(effect != null, "Status effect was not found")
+	assert(status_applier != null, "Status Applier has not been set")
+	status_applier.apply_status_effect(effect, monster_wrapper)
+
+class StatusApplier:
+	func apply_status_effect(effect: MonsterStatusEffect, monster_wrapper: MonsterSlot) -> void:
+		pass

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="MonsterMoveResource" load_steps=2 format=3 uid="uid://ddgknoaag076r"]
+
+[ext_resource type="Script" uid="uid://3qtt74cvull2" path="res://addons/gen345/Monster/monster_move_resource.gd" id="1_kqsvr"]
+
+[resource]
+script = ExtResource("1_kqsvr")
+name = ""
+description = ""
+target_type = 0
+move_type = 0
+attack_data = {}
+heal_data = 0.0
+status_afflict_data = Array[String]([])
+status_clear_data = Array[String]([])
+stat_change_data = {}
+type = ""
+usages = 0
+power = 0
+accuracy = 0
+user_defined = {}
+effects = Array[String]([])
+side_effects = {}
+attack_animation = ""
